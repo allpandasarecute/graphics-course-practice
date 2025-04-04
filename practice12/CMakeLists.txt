@@ -1,10 +1,11 @@
-cmake_minimum_required(VERSION 3.0)
+cmake_minimum_required(VERSION 3.0...3.10)
 project(practice12)
 
 cmake_policy(SET CMP0072 NEW)
 cmake_policy(SET CMP0074 NEW)
 
 set(CMAKE_CXX_STANDARD 20)
+set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 
 list(APPEND CMAKE_MODULE_PATH "${CMAKE_CURRENT_LIST_DIR}/cmake/modules")
 
@@ -20,17 +21,20 @@ if(APPLE)
 	list(APPEND GLEW_LIBRARIES "${GLEW_LIBRARY}")
 endif()
 
+add_subdirectory(glm)
+
 set(TARGET_NAME "${PROJECT_NAME}")
 
 set(PROJECT_ROOT "${CMAKE_CURRENT_SOURCE_DIR}")
 
-add_executable(${TARGET_NAME} main.cpp obj_parser.hpp obj_parser.cpp stb_image.h stb_image.c)
+add_executable(${TARGET_NAME} main.cpp obj_parser.hpp obj_parser.cpp stb_image.c stb_image.h)
 target_include_directories(${TARGET_NAME} PUBLIC
 	"${SDL2_INCLUDE_DIRS}"
 	"${GLEW_INCLUDE_DIRS}"
 	"${OPENGL_INCLUDE_DIRS}"
 )
 target_link_libraries(${TARGET_NAME} PUBLIC
+	glm
 	"${GLEW_LIBRARIES}"
 	"${SDL2_LIBRARIES}"
 	"${OPENGL_LIBRARIES}"
